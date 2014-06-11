@@ -9,10 +9,10 @@ window.addEventListener('load',function(e) {
 
   // Set up a standard Quintus instance with only the 
   // Sprites and Scene module (for the stage support) loaded.
-  var Q = window.Q = Quintus().include("Sprites, Scenes, Input, Touch");
+  var Q = window.Q = Quintus().include("Sprites, Scenes, Input, Touch, Mouse");
 
   Q.setup({ maximize: true })
-   .touch(Q.SPRITE_ALL);
+   .touch(Q.SPRITE_ALL).mouse(Q.SPRITE_ALL);
   // Sprite class for the randomly shapes
   //
   //
@@ -28,12 +28,22 @@ window.addEventListener('load',function(e) {
        // touch module
        this.on("drag");
        this.on("touchEnd");
+       this.on("mouseEnter");
+       this.on("mouseExit");
      },
 
      drag: function(touch) {
        this.p.dragging = true;
        this.p.x = touch.origX + touch.dx;
        this.p.y = touch.origY + touch.dy;
+     },
+
+     mouseEnter: function(mouse){
+        this.p.over = true;
+     },
+
+     mouseExit: function(mouse){
+        this.p.over = false;
      },
 
      touchEnd: function(touch) {
@@ -153,7 +163,7 @@ window.addEventListener('load',function(e) {
   // touch system doesn't handle mousemouse events, so lets add
   // in an event listener and use `Stage.locate` to highlight
   // sprites on desktop.
-  Q.el.addEventListener('mousemove',function(e) {
+/*  Q.el.addEventListener('mousemove',function(e) {
     var x = e.offsetX || e.layerX,
         y = e.offsetY || e.layerY,
         stage = Q.stage();
@@ -174,7 +184,7 @@ window.addEventListener('load',function(e) {
       currentObj = obj;
       obj.p.over = true;
     }
-  });
+  }); */
 
 });
 
